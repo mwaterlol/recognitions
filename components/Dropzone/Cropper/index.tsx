@@ -16,7 +16,6 @@ const Cropper = forwardRef(({ file }: { file: FileWithPath }, ref) => {
                     borderRadius: "var(--mantine-spacing-md)",
                     objectFit: "contain",
                 }}
-                ref={ref}
             />
         </ReactCrop>
     );
