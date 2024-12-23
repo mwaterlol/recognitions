@@ -195,7 +195,7 @@ export default function Dropzone({
                             {output.length > 0 && (
                                 <Button
                                     onClick={() => {
-                                        cropImageNow();
+                                        onSubmit(files[0]);
                                     }}
                                 >
                                     Отправить на распознавание
