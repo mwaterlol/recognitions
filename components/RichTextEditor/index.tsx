@@ -1,3 +1,4 @@
+"use client";
 import React, {
     forwardRef,
     useEffect,
@@ -14,6 +15,7 @@ import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
+import { Palette } from "lucide-react";
 
 interface RichTextEditorProps {
     value: string;
@@ -58,12 +60,40 @@ const RichTextEditor = forwardRef(
         return (
             <MantineRichTextEditor
                 editor={editor}
-                mih={350}
+                mih={400}
                 style={{
                     fontFamily: "FlaviusUniversal",
+                    fontSize: 20,
                 }}
             >
                 <MantineRichTextEditor.Toolbar sticky stickyOffset={60}>
+                    <MantineRichTextEditor.ColorPicker
+                        colors={[
+                            "#25262b",
+                            "#868e96",
+                            "#fa5252",
+                            "#e64980",
+                            "#be4bdb",
+                            "#7950f2",
+                            "#4c6ef5",
+                            "#228be6",
+                            "#15aabf",
+                            "#12b886",
+                            "#40c057",
+                            "#82c91e",
+                            "#fab005",
+                            "#fd7e14",
+                        ]}
+                    />
+
+                    <MantineRichTextEditor.ControlsGroup>
+                        <MantineRichTextEditor.Color color="#F03E3E" />
+                        <MantineRichTextEditor.Color color="#7048E8" />
+                        <MantineRichTextEditor.Color color="#1098AD" />
+                        <MantineRichTextEditor.Color color="#37B24D" />
+                        <MantineRichTextEditor.Color color="#F59F00" />
+                        <MantineRichTextEditor.Color color="yellow" />
+                    </MantineRichTextEditor.ControlsGroup>
                     <MantineRichTextEditor.ControlsGroup>
                         <MantineRichTextEditor.H1 />
                         <MantineRichTextEditor.H2 />

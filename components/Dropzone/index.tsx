@@ -27,7 +27,7 @@ export default function Dropzone({
     onSubmit,
     ...props
 }: Partial<Omit<DropzoneProps, "onSubmit">> & {
-    onSubmit: (file: FileWithPath) => void;
+    onSubmit: (columns: string[]) => void;
 }) {
     const [files, setFiles] = useState<FileWithPath[]>([]);
 
@@ -40,7 +40,7 @@ export default function Dropzone({
     let [imgIndex, setImageIndex] = useState(0);
     const cropImageNow = () => {
         if (isProcessing || !files[0] || !crop || !imageRef.current) return;
-
+        console.log(crop);
         const img = imageRef.current;
         const objectURL = URL.createObjectURL(files[0]);
         img.src = objectURL;
@@ -86,7 +86,6 @@ export default function Dropzone({
         };
     };
 
-    console.log(output);
     return (
         <Stack align="center">
             <MantineDropzone
@@ -195,14 +194,20 @@ export default function Dropzone({
                             {output.length > 0 && (
                                 <Button
                                     onClick={() => {
-                                        onSubmit(files[0]);
+                                        onSubmit(
+                                            output.filter(
+                                                (item) =>
+                                                    item !== null &&
+                                                    item !== undefined
+                                            )
+                                        );
                                     }}
                                 >
                                     Отправить на распознавание
                                 </Button>
                             )}
                         </Flex>
-                        <Stack mt={10} mx={10}>
+                        <Stack mt={10} mx={10} miw="100%">
                             <Title order={4}>Выделенные столбцы</Title>
                             <Flex gap={4} mih="100%" wrap={"wrap"}>
                                 {output &&

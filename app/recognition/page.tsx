@@ -3,6 +3,7 @@ import Dropzone from "@/components/Dropzone";
 import MainLayout from "@/components/layouts/MainLayout";
 import ResultFrame from "@/domains/recognition/components/ResultFrame";
 import { useRecognizeSingleImage } from "@/domains/recognition/hooks/useRecognizeSingleImage";
+import { ResultType } from "@/domains/recognition/types";
 import {
     Button,
     Collapse,
@@ -13,20 +14,84 @@ import {
     Text,
 } from "@mantine/core";
 import { FileWithPath } from "@mantine/dropzone";
+import { useSetState } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
 export default function Generation() {
     const [frame, setFrame] = useState<"form" | "loading" | "result">("form");
 
+    const [result, setResult] = useState<ResultType[]>([]);
+
+    const changeResultText = ({
+        index,
+        text,
+    }: {
+        index: number;
+        text: string;
+    }) => {
+        setResult((prevState) => {
+            // Create a new array with updated `resultText` for the specified index
+            const updatedState = prevState.map((item, idx) =>
+                idx === index ? { ...item, resultText: text } : item
+            );
+            return updatedState;
+        });
+    };
     const recognizeSingleMutation = useRecognizeSingleImage();
-    const onSubmit = async (file: FileWithPath) => {
-        const data = await recognizeSingleMutation.mutateAsync(file);
+    const onSubmit = async (columns: string[]) => {
+        setFrame("loading");
+        const files: File[] = [];
+        const response: ResultType[] = [];
+        columns.forEach((data, index) => {
+            const matches = data.match(/^data:(.+);base64,(.+)$/);
+            if (!matches) {
+                console.error(`Invalid base64 string at index ${index}`);
+                return;
+            }
+
+            const mimeType = matches[1]; // e.g., "image/jpeg"
+            const base64Content = matches[2]; // The actual Base64-encoded content
+            const extension = mimeType.split("/")[1]; // e.g., "jpeg" or "png"
+            const fileName = `file${index}.${extension}`;
+
+            // Decode base64 content
+            const binaryContent = atob(base64Content);
+            const byteArray = new Uint8Array(binaryContent.length);
+            for (let i = 0; i < binaryContent.length; i++) {
+                byteArray[i] = binaryContent.charCodeAt(i);
+            }
+
+            // Create a Blob and trigger download
+            const blob = new Blob([byteArray], { type: mimeType });
+            files.push(new File([blob], fileName));
+        });
+        console.log(files);
+        for (const file of files) {
+            const { data } = await recognizeSingleMutation.mutateAsync(file);
+            response.push({
+                image: data.image,
+                generatedText: data.randomText,
+                resultText: data.randomText,
+            });
+            // setResult((prev) => [
+            //     ...prev,
+            // {
+            //     image: data.image,
+            //     generatedText: data.randomText,
+            //     resultText: data.randomText,
+            // },
+            // ]);
+        }
+        setResult(response);
+        console.log(response);
         setFrame("result");
     };
     const frameComponent = {
-        form: <Dropzone onSubmit={(file) => onSubmit(file)} />,
+        form: <Dropzone onSubmit={(columns) => onSubmit(columns)} />,
         loading: null,
-        result: <ResultFrame />,
+        result: (
+            <ResultFrame changeResultText={changeResultText} result={result} />
+        ),
     }[frame];
 
     return (

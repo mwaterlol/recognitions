@@ -91,8 +91,10 @@ export default function Sidebar() {
                         <Flex align="center" gap={6}>
                             <UserCircle size={30} />
                             <Stack gap={0}>
-                                <Text size="md">{user?.username}</Text>
-                                <Text size="sm" c="dimmed">
+                                <Text size="md" truncate maw={150}>
+                                    {user?.username}
+                                </Text>
+                                <Text size="sm" c="dimmed" truncate maw={150}>
                                     {user?.email}
                                 </Text>
                             </Stack>

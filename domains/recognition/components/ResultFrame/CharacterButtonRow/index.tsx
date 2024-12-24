@@ -1,3 +1,4 @@
+"use client";
 import { Stack, Flex, Button } from "@mantine/core";
 
 export default function CharacterButtonRow({
