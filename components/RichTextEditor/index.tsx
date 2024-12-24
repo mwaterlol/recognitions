@@ -50,13 +50,12 @@ const RichTextEditor = forwardRef(
 
         useImperativeHandle(ref, () => ({
             insertTextAtCursor: (text: string) => {
-                console.log(1);
                 if (editor) {
                     editor.chain().focus().insertContent(text).run();
                 }
             },
         }));
-
+        console.log(value);
         return (
             <MantineRichTextEditor
                 editor={editor}
@@ -114,6 +113,18 @@ const RichTextEditor = forwardRef(
                         <MantineRichTextEditor.AlignCenter />
                         <MantineRichTextEditor.AlignJustify />
                         <MantineRichTextEditor.AlignRight />
+                    </MantineRichTextEditor.ControlsGroup>
+                    <MantineRichTextEditor.ControlsGroup>
+                        <MantineRichTextEditor.Blockquote />
+                        <MantineRichTextEditor.Hr />
+                        <MantineRichTextEditor.BulletList />
+                        <MantineRichTextEditor.OrderedList />
+                        <MantineRichTextEditor.Subscript />
+                        <MantineRichTextEditor.Superscript />
+                    </MantineRichTextEditor.ControlsGroup>
+                    <MantineRichTextEditor.ControlsGroup>
+                        <MantineRichTextEditor.Undo />
+                        <MantineRichTextEditor.Redo />
                     </MantineRichTextEditor.ControlsGroup>
                 </MantineRichTextEditor.Toolbar>
                 <MantineRichTextEditor.Content />

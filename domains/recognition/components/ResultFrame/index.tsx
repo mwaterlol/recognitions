@@ -1,5 +1,5 @@
 "use client";
-import { Button, Divider, Flex, SegmentedControl, Stack } from "@mantine/core";
+import { Button, Card, Divider, Flex, Text, Stack, Title } from "@mantine/core";
 import React, { useRef, useState } from "react";
 import image from "@/assets/136.jpg";
 import Image from "next/image";
@@ -33,7 +33,7 @@ export default function ResultFrame({
 
     const handleButtonClick = (char: string) => {
         if (editorRef.current) {
-            editorRef.current.insertTextAtCursor(char); // Call method to insert text
+            editorRef.current.insertTextAtCursor(char);
         }
     };
     const onChangeInput = (value: string) => {
@@ -49,6 +49,22 @@ export default function ResultFrame({
     console.log(result);
     return (
         <Stack pb={370}>
+            <Title order={3}>Результаты распознавания:</Title>
+            <Card withBorder>
+                <Stack>
+                    <Title order={5}>Условные обозначения:</Title>
+                    <Flex>
+                        <span style={{ color: "#F03E3E" }}>asdasd</span>
+                        <Text>
+                            - текст, в котором высока вероятность ошибки
+                        </Text>
+                    </Flex>
+                    <Flex>
+                        <u>еевапвап</u>
+                        <Text>- текст, который находится под "домиком"</Text>
+                    </Flex>
+                </Stack>
+            </Card>
             {result &&
                 Array.isArray(result) &&
                 result.map((elem, index) => {
