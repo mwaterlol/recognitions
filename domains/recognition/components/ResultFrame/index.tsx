@@ -54,13 +54,13 @@ export default function ResultFrame({
                 <Stack>
                     <Title order={5}>Условные обозначения:</Title>
                     <Flex>
-                        <span style={{ color: "#F03E3E" }}>asdasd</span>
+                        <span style={{ color: "#F03E3E" }}>12345</span>
                         <Text>
                             - текст, в котором высока вероятность ошибки
                         </Text>
                     </Flex>
                     <Flex>
-                        <u>еевапвап</u>
+                        <u>12345</u>
                         <Text>- текст, который находится под "домиком"</Text>
                     </Flex>
                 </Stack>
