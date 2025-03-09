@@ -70,8 +70,8 @@ export default function Generation() {
             const { data } = await recognizeSingleMutation.mutateAsync(file);
             response.push({
                 image: data.image,
-                generatedText: data.randomText,
-                resultText: data.randomText,
+                generatedText: data.text,
+                resultText: data.text,
             });
             // setResult((prev) => [
             //     ...prev,

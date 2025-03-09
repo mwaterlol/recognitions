@@ -1,6 +1,6 @@
 export type RecognitionResponse = {
     image: string;
-    randomText: string;
+    text: string;
 };
 
 export type ResultType = {
